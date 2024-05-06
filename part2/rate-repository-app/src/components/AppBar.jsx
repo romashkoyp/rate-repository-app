@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     flexDirection: 'row',
     display: 'flex',
-    backgroundColor: 'rgba(36, 41, 46, 0.7)'
+    backgroundColor: 'rgba(36, 41, 46, 0.7)',
   },
   bar: {
     flexGrow: 0
