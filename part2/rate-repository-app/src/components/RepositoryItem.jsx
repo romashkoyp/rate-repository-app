@@ -1,4 +1,3 @@
-// RepositoryItem a single item on the list (hint: use the FlatList component's renderItem prop)
 import { View } from 'react-native';
 import Text from './Text';
 
