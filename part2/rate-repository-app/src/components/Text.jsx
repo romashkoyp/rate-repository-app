@@ -1,6 +1,6 @@
 import { Text as NativeText, StyleSheet } from 'react-native';
-
 import theme from '../theme';
+import useFontStyle from '../useFontStyle';
 
 const styles = StyleSheet.create({
   text: {
@@ -30,6 +30,9 @@ const styles = StyleSheet.create({
 });
 
 const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
+  const fontStyle = useFontStyle();
+  // console.log(fontStyle);
+  
   const textStyle = [
     styles.text,
     color === 'textSecondary' && styles.colorTextSecondary,
@@ -38,6 +41,7 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
     color === 'red' && styles.colorError,
     fontSize === 'subheading' && styles.fontSizeSubheading,
     fontWeight === 'bold' && styles.fontWeightBold,
+    fontStyle,
     style,
   ];
 
