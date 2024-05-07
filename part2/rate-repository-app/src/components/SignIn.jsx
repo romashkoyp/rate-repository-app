@@ -1,5 +1,7 @@
 import { TextInput, Pressable, View, StyleSheet } from 'react-native';
-import { Formik, Form, Field } from 'formik';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+
 import Text from './Text';
 
 const styles = StyleSheet.create({
@@ -15,12 +17,18 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'gray',
   },
+  errorContainer: {
+    flexDirection: 'row',
+  },
   buttonContainer: {
     backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
     borderRadius: 10,
+  },
+  errorInput: {
+    borderColor: 'red',
   },
 });
 
@@ -29,24 +37,34 @@ const initialValues = {
   password: '',
 };
 
+const SignupSchema = yup.object().shape({
+  username: yup.string().required('Username is required'),
+  password: yup.string().required('Password is required'),
+});
+
 const SignIn = () => {
   const handleSubmit = (values) => {
     console.log(values);
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ handleSubmit, values, handleChange }) => (
+    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={SignupSchema}>
+      {({ handleSubmit, values, handleChange, errors, touched }) => (
         <View>
           <View style={styles.container}>
-            <View style={styles.textContainer}>
+            <View style={[styles.textContainer, touched.username && errors.username && styles.errorInput]}>
               <TextInput
                 value={values.username}
                 onChangeText={handleChange('username')}
                 placeholder="Username"
               />
             </View>
-            <View style={styles.textContainer}>
+            {touched.username && errors.username && (
+              <View style={styles.errorContainer}>
+                <Text style={{ color: 'red' }}>{errors.username}</Text>
+              </View>
+            )}
+            <View style={[styles.textContainer, touched.password && errors.password && styles.errorInput]}>
               <TextInput
                 value={values.password}
                 onChangeText={handleChange('password')}
@@ -54,6 +72,11 @@ const SignIn = () => {
                 secureTextEntry
               />
             </View>
+            {touched.password && errors.password && (
+              <View style={styles.errorContainer}>
+                <Text style={{ color: 'red' }}>{errors.password}</Text>
+              </View>
+            )}
             <View style={styles.buttonContainer}>
               <Pressable onPress={handleSubmit}>
                 <Text color="bar">Sign in</Text>
