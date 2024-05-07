@@ -1,7 +1,6 @@
 import { TextInput, Pressable, View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-
 import Text from './Text';
 
 const styles = StyleSheet.create({
@@ -61,7 +60,7 @@ const SignIn = () => {
             </View>
             {touched.username && errors.username && (
               <View style={styles.errorContainer}>
-                <Text style={{ color: 'red' }}>{errors.username}</Text>
+                <Text color='red'>{errors.username}</Text>
               </View>
             )}
             <View style={[styles.textContainer, touched.password && errors.password && styles.errorInput]}>
@@ -74,7 +73,7 @@ const SignIn = () => {
             </View>
             {touched.password && errors.password && (
               <View style={styles.errorContainer}>
-                <Text style={{ color: 'red' }}>{errors.password}</Text>
+                <Text color='red'>{errors.password}</Text>
               </View>
             )}
             <View style={styles.buttonContainer}>

@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
   colorBar: {
     color: theme.colors.barText,
   },
+  colorError: {
+    color: theme.colors.red,
+  },
 });
 
 const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
@@ -32,6 +35,7 @@ const Text = ({ color, fontSize, fontWeight, style, ...props }) => {
     color === 'textSecondary' && styles.colorTextSecondary,
     color === 'primary' && styles.colorPrimary,
     color === 'bar' && styles.colorBar,
+    color === 'red' && styles.colorError,
     fontSize === 'subheading' && styles.fontSizeSubheading,
     fontWeight === 'bold' && styles.fontWeightBold,
     style,
