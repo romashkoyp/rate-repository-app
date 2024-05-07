@@ -1,12 +1,19 @@
 import { Pressable, Text } from 'react-native';
+import { Link } from 'react-router-native';
 import theme from '../theme';
 
-const AppBarTab = () => {
+export const AppBarTab = () => {
   return (
-    <Pressable>
+    <Link to="/">
       <Text style={{ color: theme.colors.barText, fontSize: theme.fontSizes.subheading }}>Repositories</Text>
-    </Pressable>
-  )
+    </Link>
+  );
 };
 
-export default AppBarTab;
+export const AppBarSignIn = () => {
+  return (
+    <Link to="/signIn">
+      <Text style={{ color: theme.colors.barText, fontSize: theme.fontSizes.subheading }}>Sign In</Text>
+    </Link>
+  );
+};
