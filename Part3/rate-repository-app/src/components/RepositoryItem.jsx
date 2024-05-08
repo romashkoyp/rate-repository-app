@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet } from 'react-native';
 import Text from './Text';
-import FormatCount from '../utils';
+import FormatCount from '../utils/shortBigNumber';
 
 const styles = StyleSheet.create({
   firstLevelContainer: {
@@ -70,7 +70,7 @@ const Item = ({ fullName, description, language, stargazersCount, forksCount, re
             <Text fontWeight='bold' fontSize='subheading' color='primary'>Full name: {fullName}</Text>
           </View>
           <View style={styles.textContainer}>
-            <Text>Description: {description}</Text>
+            <Text>{description}</Text>
           </View>
           <View style={styles.textContainer}>
             <View style={styles.buttonContainer}>
