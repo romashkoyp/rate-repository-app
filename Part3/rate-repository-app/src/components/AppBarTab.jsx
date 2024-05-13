@@ -17,3 +17,11 @@ export const AppBarSignIn = () => {
     </Link>
   );
 };
+
+export const AppBarSignOut = ({ onPress }) => {
+  return (
+    <Pressable onPress={onPress}>
+      <Text style={{ color: theme.colors.barText, fontSize: theme.fontSizes.subheading }}>Sign Out</Text>
+    </Pressable>
+  );
+};
