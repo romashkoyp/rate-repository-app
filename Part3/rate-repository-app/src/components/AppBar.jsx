@@ -1,10 +1,10 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import Constants from 'expo-constants';
-import { useQuery, useApolloClient } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import useAuthStorage from '../hooks/useAuthStorage';
+import useMe from '../hooks/useMe';
 import { AppBarTab, AppBarSignIn, AppBarSignOut } from './AppBarTab';
-import { ME } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   container: {
@@ -21,10 +21,12 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  const { data, loading, error } = useQuery(ME);
-  console.log(data)
   const authStorage = useAuthStorage();
   const client = useApolloClient();
+  const { me } = useMe();
+
+  console.log('about me:', me)
+
   const navigate = useNavigate();
   
   const handleSignOut = async () => {
@@ -41,10 +43,11 @@ const AppBar = () => {
             <AppBarTab />
           </View>
           <View style={styles.appBarTabContainer}>
-            <AppBarSignOut onPress={handleSignOut}/>
-          </View>
-          <View style={styles.appBarTabContainer}>
-            <AppBarSignIn />
+            {me && me.username ? (
+              <AppBarSignOut onPress={handleSignOut}/>
+            ) : (
+              <AppBarSignIn />
+            )}
           </View>
         </View>
       </ScrollView>
