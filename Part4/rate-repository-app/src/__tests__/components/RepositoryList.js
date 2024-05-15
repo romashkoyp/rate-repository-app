@@ -51,8 +51,7 @@ describe('RepositoryList', () => {
       const repositoryItems = getAllByTestId('repositoryItem');
       
       const [firstRepositoryItem, secondRepositoryItem] = repositoryItems;
-      screen.debug(repositoryItems);
-      
+      // screen.debug();
       const { getByText: getByTextFirstRepo } = within(firstRepositoryItem);
       const { getByText: getByTextSecondRepo } = within(secondRepositoryItem);
 
