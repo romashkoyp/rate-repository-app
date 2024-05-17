@@ -1,7 +1,8 @@
 import { TextInput, Pressable, View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
-import { useNavigate } from 'react-router-native';
+import { useNavigate, useParams } from 'react-router-native';
 import { useApolloClient } from '@apollo/client';
+import useReviews from '../hooks/useReviews';
 import useSignIn from '../hooks/useSignIn';
 import * as yup from 'yup';
 import Text from './Text';
@@ -35,8 +36,8 @@ const styles = StyleSheet.create({
 });
 
 const initialValues = {
-  username: '',
-  password: '',
+  username: 'kalle',
+  password: 'password',
 };
 
 const SignupSchema = yup.object().shape({
@@ -48,6 +49,11 @@ const SignIn = () => {
   const [signIn] = useSignIn();
   const navigate = useNavigate();
   const client = useApolloClient();
+
+  // const { id } = useParams();
+  const reviews = useReviews();
+
+  console.log(reviews)
 
   const handleSubmit = async (values) => {
     const { username, password } = values;

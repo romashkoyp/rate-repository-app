@@ -21,6 +21,7 @@ const RepositoryView = () => {
 
   // Ensure data is available and properly structured
   const repository = data?.repository;
+
   if (!repository) {
     return <Text>No repository data available</Text>;
   }

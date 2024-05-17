@@ -33,6 +33,29 @@ export const ME = gql`
   }
 `;
 
+export const GET_REVIEWS = gql`
+  query {
+    repository(id: "jaredpalmer.formik") {
+      id
+      fullName
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 // export const GET_REPOSITORY = gql`
 //   query {
 //     repository(id: "jaredpalmer.formik") {
