@@ -36,3 +36,37 @@ export const ME = gql`
     }
   }
 `;
+
+export const GET_REPOSITORY = gql`
+  query Repository($id: ID!) { 
+    repository(id: $id) {
+      id
+      fullName
+      description
+      language
+      stargazersCount
+      forksCount
+      reviewCount
+      ratingAverage
+      ownerAvatarUrl
+      url
+    }
+  }
+`;
+
+// export const GET_REPOSITORY = gql`
+//   query {
+//     repository(id: "jaredpalmer.formik") {
+//       id
+//       fullName
+//       description
+//       language
+//       stargazersCount
+//       forksCount
+//       reviewCount
+//       ratingAverage
+//       ownerAvatarUrl
+//       url
+//     }
+//   }
+// `;

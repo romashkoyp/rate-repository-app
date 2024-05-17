@@ -1,6 +1,7 @@
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Pressable } from 'react-native';
 import Text from './Text';
 import FormatCount from '../utils/shortBigNumber';
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
   firstLevelContainer: {
@@ -26,6 +27,11 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 5,
   },
+  fifthLevelContainer: {
+    flexDirection: 'column',
+    gap: 10,
+    padding: 10,
+  },
   logoContainer: {
     paddingLeft: 10,
   },
@@ -38,13 +44,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  buttonContainer:{
+  buttonContainer: {
     backgroundColor: 'blue',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 5,
+  },
+  buttonContainerMain: {
+    backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+    borderRadius: 10,
   },
   logo: {
     width: 60,
@@ -53,7 +66,12 @@ const styles = StyleSheet.create({
   },
 });
 
-const Item = ({ fullName, description, language, stargazersCount, forksCount, reviewCount, ratingAverage, ownerAvatarUrl }) => {
+const Item = ({ fullName, description, language, stargazersCount, forksCount, reviewCount, ratingAverage, ownerAvatarUrl, url }) => {
+  const handlePress = () => {
+    Linking.openURL(url)
+  };
+  
+
   return (
     <View style={styles.firstLevelContainer} testID="repositoryItem">
       <View style={styles.secondLevelContainer}>
@@ -113,8 +131,19 @@ const Item = ({ fullName, description, language, stargazersCount, forksCount, re
           </View>
         </View>
       </View>
+      {url ? (
+        <View style={styles.fifthLevelContainer}>
+          <View style={styles.buttonContainerMain}>
+            <Pressable onPress={handlePress}>
+              <Text color='bar'>Open in GitHub</Text>
+            </Pressable>
+          </View>
+        </View>) : (
+          null
+        )
+      }
     </View>
   )
-}
+};
 
 export default Item;

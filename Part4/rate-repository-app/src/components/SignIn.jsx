@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
 });
 
 const initialValues = {
-  username: 'kalle',
-  password: 'password',
+  username: '',
+  password: '',
 };
 
 const SignupSchema = yup.object().shape({
