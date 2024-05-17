@@ -1,9 +1,10 @@
 import { useQuery } from '@apollo/client';
 import { GET_REVIEWS } from '../graphql/queries';
 
-const useReviews = () => {
+const useReviews = (id) => {
   const { data, error, loading } = useQuery(GET_REVIEWS, {
     fetchPolicy: 'cache-and-network',
+    variables: { id },
   });
 
   return (

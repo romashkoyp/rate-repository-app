@@ -69,8 +69,7 @@ const styles = StyleSheet.create({
 const Item = ({ fullName, description, language, stargazersCount, forksCount, reviewCount, ratingAverage, ownerAvatarUrl, url }) => {
   const handlePress = () => {
     Linking.openURL(url)
-  };
-  
+  };  
 
   return (
     <View style={styles.firstLevelContainer} testID="repositoryItem">

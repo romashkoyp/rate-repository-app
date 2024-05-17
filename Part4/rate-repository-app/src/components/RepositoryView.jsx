@@ -1,30 +1,41 @@
-import React from 'react';
-import { Text } from 'react-native';
-import Item from './RepositoryItem';
+import { Text, FlatList, View, StyleSheet  } from 'react-native';
 import { useParams } from 'react-router-native';
+import Item from './RepositoryItem';
+import ReviewItem from './ReviewItem';
 import useRepository from '../hooks/useRepository';
+import useReviews from '../hooks/useReviews';
+
+const styles = StyleSheet.create({
+  separator: {
+    height: 10,
+    backgroundColor: '#e1e4e8',
+  },
+});
+
+const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryView = () => {
   const { id } = useParams();
-  const { data, loading, error } = useRepository(id);
+  const { data: repoData, loading: repoLoading, error: repoError } = useRepository(id);
+  const { data: reviewData, loading: reviewLoading, error: reviewError } = useReviews(id);
 
-  // Log the full response for debugging
-  console.log({ data, loading, error });
-
-  if (loading) {
+  if (repoLoading || reviewLoading) {
     return <Text>Loading...</Text>;
   }
 
-  if (error) {
+  if (repoError || reviewError) {
     return <Text>Error: {error.message}</Text>;
   }
+  // const reviews = reviewData.repository.reviews.edges[0];
+  // console.log(reviews);
 
-  // Ensure data is available and properly structured
-  const repository = data?.repository;
+  const repository = repoData?.repository;
 
   if (!repository) {
     return <Text>No repository data available</Text>;
   }
+
+  const reviews = reviewData?.repository?.reviews?.edges?.map(edge => edge.node);
 
   const {
     fullName,
@@ -39,16 +50,24 @@ const RepositoryView = () => {
   } = repository;
 
   return (
-    <Item
-      fullName={fullName}
-      description={description}
-      language={language}
-      stargazersCount={stargazersCount}
-      forksCount={forksCount}
-      reviewCount={reviewCount}
-      ratingAverage={ratingAverage}
-      ownerAvatarUrl={ownerAvatarUrl}
-      url={url}
+    <FlatList
+      data={reviews}
+      renderItem={({ item }) => <ReviewItem review={item} />}
+      keyExtractor={(item) => item.id}
+      ListHeaderComponent={() => (
+        <Item
+          fullName={fullName}
+          description={description}
+          language={language}
+          stargazersCount={stargazersCount}
+          forksCount={forksCount}
+          reviewCount={reviewCount}
+          ratingAverage={ratingAverage}
+          ownerAvatarUrl={ownerAvatarUrl}
+          url={url}
+        />
+      )}
+      ItemSeparatorComponent={ItemSeparator}
     />
   );
 };
