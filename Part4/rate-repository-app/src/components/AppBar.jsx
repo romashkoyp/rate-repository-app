@@ -4,7 +4,7 @@ import Constants from 'expo-constants';
 import { useApolloClient } from '@apollo/client';
 import useAuthStorage from '../hooks/useAuthStorage';
 import useMe from '../hooks/useMe';
-import { AppBarTab, AppBarSignIn, AppBarSignOut } from './AppBarTab';
+import { AppBarTab, AppBarSignIn, AppBarSignOut, AppBarCreateReview } from './AppBarTab';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,12 +35,23 @@ const AppBar = () => {
     navigate('/signIn');
   };
 
+  const handleAddReview = async () => {
+    navigate('/createReview')
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView horizontal>
         <View style={styles.bar}>
           <View style={styles.appBarTabContainer}>
             <AppBarTab />
+          </View>
+          <View style={styles.appBarTabContainer}>
+            {me && me.username ? (
+              <AppBarCreateReview onPress={handleAddReview}/>
+            ) : (
+              null
+            )}
           </View>
           <View style={styles.appBarTabContainer}>
             {me && me.username ? (

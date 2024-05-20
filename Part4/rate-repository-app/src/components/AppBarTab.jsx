@@ -10,6 +10,14 @@ export const AppBarTab = () => {
   );
 };
 
+export const AppBarCreateReview = ({ onPress }) => {
+  return (
+    <Pressable onPress={onPress}>
+      <Text style={{ color: theme.colors.barText, fontSize: theme.fontSizes.subheading }}>Create a review</Text>
+    </Pressable>
+  );
+};
+
 export const AppBarSignIn = () => {
   return (
     <Link to="/signIn">
