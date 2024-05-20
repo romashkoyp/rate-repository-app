@@ -24,7 +24,7 @@ const RepositoryView = () => {
   }
 
   if (repoError || reviewError) {
-    return <Text>Error: {error.message}</Text>;
+    return <Text>RepoError or ReviewError</Text>;
   }
   // const reviews = reviewData.repository.reviews.edges[0];
   // console.log(reviews);

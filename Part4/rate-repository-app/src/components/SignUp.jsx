@@ -61,7 +61,7 @@ const SignupSchema = yup.object().shape({
 });
 
 const SignUp = () => {
-  const [createUser, result] = useCreateUser();
+  const [createUser] = useCreateUser();
   const [signIn] = useSignIn();
   const navigate = useNavigate();
   const client = useApolloClient();
@@ -70,11 +70,11 @@ const SignUp = () => {
     const { username, password } = values;
     
     try {
-      const { userId, result } = await createUser({ username, password });
+      const { userId } = await createUser({ username, password });
 
       if (userId) {
         // console.log('userId:', userId);
-        const { accessToken } = await signIn({ username, password });
+        await signIn({ username, password });
         client.resetStore();
         navigate('/');
       } else {

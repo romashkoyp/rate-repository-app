@@ -54,7 +54,7 @@ const SignIn = () => {
     const { username, password } = values;
     
     try {
-      const { accessToken } = await signIn({ username, password });
+      await signIn({ username, password });
       // console.log('Access token:', accessToken);
       client.resetStore();
       navigate('/');      

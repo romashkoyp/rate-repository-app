@@ -55,14 +55,14 @@ const addReviewSchema = yup.object().shape({
 });
 
 const CreateReview = () => {
-  const [createReview, result] = useCreateReview();
+  const [createReview] = useCreateReview();
   const navigate = useNavigate();
   const client = useApolloClient();
 
   const handleSubmit = async (values) => {
     const { ownerName, repositoryName, rating, text } = values;
     try {
-      const { repositoryId, result } = await createReview({ ownerName, repositoryName, rating, text });
+      const { repositoryId } = await createReview({ ownerName, repositoryName, rating, text });
 
       if (repositoryId) {
         // console.log('repositoryId:', repositoryId)
