@@ -2,6 +2,7 @@ import { TextInput, Pressable, View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-native';
 import { useApolloClient } from '@apollo/client';
+import theme from '../theme';
 
 import useCreateReview from '../hooks/useCreateReview';
 import * as yup from 'yup';
@@ -86,6 +87,7 @@ const CreateReview = () => {
                 value={values.ownerName}
                 onChangeText={handleChange('ownerName')}
                 placeholder='Repository owner name'
+                placeholderTextColor={theme.colors.secondary}
               />
             </View>
             {touched.ownerName && errors.ownerName && (
@@ -98,6 +100,7 @@ const CreateReview = () => {
                 value={values.repositoryName}
                 onChangeText={handleChange('repositoryName')}
                 placeholder='Repository name'
+                placeholderTextColor={theme.colors.secondary}
               />
             </View>
             {touched.repositoryName && errors.repositoryName && (
@@ -111,6 +114,7 @@ const CreateReview = () => {
                 onChangeText={handleChange('rating')}
                 placeholder='Rating between 0 and 100'
                 keyboardType='numeric'
+                placeholderTextColor={theme.colors.secondary}
               />
             </View>
             {touched.rating && errors.rating && (
@@ -123,6 +127,7 @@ const CreateReview = () => {
                 value={values.text}
                 onChangeText={handleChange('text')}
                 placeholder='Review'
+                placeholderTextColor={theme.colors.secondary}
               />
             </View>
             <View style={styles.buttonContainer}>

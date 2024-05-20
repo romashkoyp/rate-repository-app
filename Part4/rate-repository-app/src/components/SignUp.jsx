@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-native';
 import { useApolloClient } from '@apollo/client';
 import theme from '../theme';
 
+import useCreateUser from '../hooks/useCreateUser';
 import useSignIn from '../hooks/useSignIn';
 import * as yup from 'yup';
 import Text from './Text';
@@ -38,26 +39,47 @@ const styles = StyleSheet.create({
 
 const initialValues = {
   username: 'kalle',
-  password: 'password',
+  password: '12345',
+  passwordConfirm: '',
 };
 
 const SignupSchema = yup.object().shape({
-  username: yup.string().required('Username is required'),
-  password: yup.string().required('Password is required'),
+  username: yup
+    .string()
+    .required('Username is required')
+    .min(5, 'Username must be at least 5 characters')
+    .max(30, 'Username must be at most 30 characters'),
+  password: yup
+    .string()
+    .required('Password is required')
+    .min(5, 'Password must be at least 5 characters')
+    .max(50, 'Password must be at most 50 characters'),
+  passwordConfirm: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required('Password confirmation is required'),
 });
 
-const SignIn = () => {
+const SignUp = () => {
+  const [createUser, result] = useCreateUser();
   const [signIn] = useSignIn();
   const navigate = useNavigate();
   const client = useApolloClient();
+
   const handleSubmit = async (values) => {
     const { username, password } = values;
     
     try {
-      const { accessToken } = await signIn({ username, password });
-      // console.log('Access token:', accessToken);
-      client.resetStore();
-      navigate('/');      
+      const { userId, result } = await createUser({ username, password });
+
+      if (userId) {
+        // console.log('userId:', userId);
+        const { accessToken } = await signIn({ username, password });
+        client.resetStore();
+        navigate('/');
+      } else {
+        console.error("No userId is provided");
+      }       
     } catch (e) {
       console.log(e);
     }
@@ -86,8 +108,8 @@ const SignIn = () => {
                 value={values.password}
                 onChangeText={handleChange('password')}
                 placeholder="Password"
-                placeholderTextColor={theme.colors.secondary}
                 secureTextEntry
+                placeholderTextColor={theme.colors.secondary}
               />
             </View>
             {touched.password && errors.password && (
@@ -95,9 +117,23 @@ const SignIn = () => {
                 <Text color='red'>{errors.password}</Text>
               </View>
             )}
+            <View style={[styles.textContainer, touched.passwordConfirm && errors.passwordConfirm && styles.errorInput]}>
+              <TextInput
+                value={values.passwordConfirm}
+                onChangeText={handleChange('passwordConfirm')}
+                placeholder="Confirm password"
+                secureTextEntry
+                placeholderTextColor={theme.colors.secondary}
+              />
+          </View>
+          {touched.passwordConfirm && errors.passwordConfirm && (
+            <View style={styles.errorContainer}>
+              <Text color="red">{errors.passwordConfirm}</Text>
+            </View>
+          )}
             <View style={styles.buttonContainer}>
               <Pressable onPress={handleSubmit}>
-                <Text color="bar">Sign in</Text>
+                <Text color="bar">Sign up</Text>
               </Pressable>
             </View>
           </View>
@@ -107,4 +143,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

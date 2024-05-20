@@ -26,6 +26,14 @@ export const AppBarSignIn = () => {
   );
 };
 
+export const AppBarSignUp = ({ onPress }) => {
+  return (
+    <Pressable onPress={onPress}>
+      <Text style={{ color: theme.colors.barText, fontSize: theme.fontSizes.subheading }}>Sign up</Text>
+    </Pressable>
+  );
+};
+
 export const AppBarSignOut = ({ onPress }) => {
   return (
     <Pressable onPress={onPress}>
