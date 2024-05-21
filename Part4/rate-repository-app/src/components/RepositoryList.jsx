@@ -1,19 +1,54 @@
 import { FlatList, View, StyleSheet, Pressable } from 'react-native';
 import useRepositories from '../hooks/useRepositories';
 import { useNavigate } from 'react-router-native';
-import Item from './RepositoryItem'
+import { useState } from 'react';
+import { Menu, Button, PaperProvider } from 'react-native-paper';
+import Item from './RepositoryItem';
+import Overlay from './Overlay';
+import theme from '../theme';
 
 const styles = StyleSheet.create({
   separator: {
     height: 10,
     backgroundColor: '#e1e4e8',
   },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 0,
+    height: 50,
+    backgroundColor: '#e1e4e8',
+  },
+  menuButton: {
+    backgroundColor: '#e1e4e8',
+    borderRadius: 0,
+  },
+  menuContainer: {
+    position: 'absolute',
+    top: '35%',
+    left: '10%',
+    width: '80%',
+    backgroundColor: 'white',
+    elevation: 5,
+    zIndex: 2,
+    borderRadius: 5,
+  },
+  menuItem: {
+    padding: 10,
+  },
+  flatListContainer: {
+    flex: 1,
+  },
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const [orderBy, setOrderBy] = useState('CREATED_AT');
+  const [orderDirection, setOrderDirection] = useState('DESC');
+  const [selectedOption, setSelectedOption] = useState('Sort repositories');
+  const [visible, setVisible] = useState(false);
+  const { repositories } = useRepositories(orderBy, orderDirection);
   const navigate = useNavigate();
   // console.log(repositories)
 
@@ -26,26 +61,92 @@ const RepositoryList = () => {
     navigate(`/repository/${id}`);
   };
 
+  const openMenu = () => setVisible(!visible);
+
+  const handleOrderChange = (value) => {
+    switch (value) {
+      case 'CREATED_AT_DESC':
+        setOrderBy('CREATED_AT');
+        setOrderDirection('DESC');
+        setSelectedOption('Latest repositories');
+        break;
+      case 'RATING_AVERAGE_DESC':
+        setOrderBy('RATING_AVERAGE');
+        setOrderDirection('DESC');
+        setSelectedOption('Highest rated repositories');
+        break;
+      case 'RATING_AVERAGE_ASC':
+        setOrderBy('RATING_AVERAGE');
+        setOrderDirection('ASC');
+        setSelectedOption('Lowest rated repositories');
+        break;
+      default:
+        break;
+    }
+    setVisible(false);
+  };
+
+  const renderHeader = () => (
+    <PaperProvider>
+      <View style={styles.headerContainer}>
+        <Button onPress={openMenu} style={styles.menuButton}>
+          {selectedOption}
+        </Button>
+      </View>
+    </PaperProvider>
+  );
+
   return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => (
-        <Pressable onPress={() => handlePress(item.id)}>
-          <Item
-            fullName={item.fullName}
-            description={item.description}
-            language={item.language}
-            stargazersCount={item.stargazersCount}
-            forksCount={item.forksCount}
-            reviewCount={item.reviewCount}
-            ratingAverage={item.ratingAverage}
-            ownerAvatarUrl={item.ownerAvatarUrl}
-          />
-        </Pressable>
-      )}
-      keyExtractor={(item) => item.id}
-    />
+    <View style={styles.flatListContainer}>
+      <FlatList
+        data={repositoryNodes}
+        ListHeaderComponent={renderHeader}
+        ItemSeparatorComponent={ItemSeparator}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => handlePress(item.id)}>
+            <Item
+              fullName={item.fullName}
+              description={item.description}
+              language={item.language}
+              stargazersCount={item.stargazersCount}
+              forksCount={item.forksCount}
+              reviewCount={item.reviewCount}
+              ratingAverage={item.ratingAverage}
+              ownerAvatarUrl={item.ownerAvatarUrl}
+            />
+          </Pressable>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+
+      <View style={styles.menuContainer}>
+        {visible && ( 
+          <View>
+            <Menu.Item
+              title="Select an item..."
+              style={styles.menuItem}
+              titleStyle={{ color: theme.colors.secondary }}
+            />
+            <Menu.Item
+              onPress={() => handleOrderChange('CREATED_AT_DESC')}
+              title="Latest repositories"
+              style={styles.menuItem}
+            />
+            <Menu.Item
+              onPress={() => handleOrderChange('RATING_AVERAGE_DESC')}
+              title="Highest rated repositories"
+              style={styles.menuItem}
+            />
+            <Menu.Item
+              onPress={() => handleOrderChange('RATING_AVERAGE_ASC')}
+              title="Lowest rated repositories"
+              style={styles.menuItem}
+            />
+          </View>
+        )}
+      </View>
+      <Overlay visible={visible} />
+    </View>
   );
 };
 
