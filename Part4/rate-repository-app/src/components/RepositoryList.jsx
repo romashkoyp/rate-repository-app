@@ -2,7 +2,7 @@ import { FlatList, View, StyleSheet, Pressable } from 'react-native';
 import useRepositories from '../hooks/useRepositories';
 import { useNavigate } from 'react-router-native';
 import { useState } from 'react';
-import { Menu, Button, PaperProvider } from 'react-native-paper';
+import { Menu, Button, PaperProvider, Searchbar } from 'react-native-paper';
 import Item from './RepositoryItem';
 import Overlay from './Overlay';
 import theme from '../theme';
@@ -15,13 +15,18 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 0,
-    height: 50,
+    height: 60,
     backgroundColor: '#e1e4e8',
+    paddingBottom: 10,
+  },
+  searchContainer: {
+    alignItems: 'left',
+    backgroundColor: '#e1e4e8',
+    padding: 10,
   },
   menuButton: {
     backgroundColor: '#e1e4e8',
-    borderRadius: 0,
+    borderRadius: 5,
   },
   menuContainer: {
     position: 'absolute',
@@ -46,7 +51,8 @@ const ItemSeparator = () => <View style={styles.separator} />;
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
-  const [selectedOption, setSelectedOption] = useState('Sort repositories');
+  const [selectedOption, setSelectedOption] = useState('Tap to sort repositories');
+  const [searchQuery, setSearchQuery] = useState('');
   const [visible, setVisible] = useState(false);
   const { repositories } = useRepositories(orderBy, orderDirection);
   const navigate = useNavigate();
@@ -88,6 +94,16 @@ const RepositoryList = () => {
 
   const renderHeader = () => (
     <PaperProvider>
+      <View style={styles.searchContainer}>
+        <Searchbar
+          placeholder="Search"
+          placeholderTextColor={theme.colors.secondary}
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+          style={{ backgroundColor: 'white', borderRadius: 5, height: 60
+           }}
+        />
+      </View>
       <View style={styles.headerContainer}>
         <Button onPress={openMenu} style={styles.menuButton}>
           {selectedOption}
