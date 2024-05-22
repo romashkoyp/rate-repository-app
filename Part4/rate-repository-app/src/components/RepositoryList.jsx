@@ -1,7 +1,7 @@
 import { FlatList, View, StyleSheet, Pressable } from 'react-native';
 import useRepositories from '../hooks/useRepositories';
 import { useNavigate } from 'react-router-native';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Menu, Button, PaperProvider, Searchbar } from 'react-native-paper';
 import Item from './RepositoryItem';
 import Overlay from './Overlay';
@@ -48,15 +48,36 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
+const RepositoryListHeader = memo(({ selectedOption, searchQuery, openMenu, setSearchQuery }) => {
+  return (
+    <PaperProvider>
+      <View style={styles.searchContainer}>
+        <Searchbar
+          placeholder="Search"
+          placeholderTextColor={theme.colors.secondary}
+          onChangeText={setSearchQuery}
+          value={searchQuery}
+          style={{ backgroundColor: 'white', borderRadius: 5 }}
+        />
+      </View>
+      <View style={styles.headerContainer}>
+        <Button onPress={openMenu} style={styles.menuButton}>
+          {selectedOption}
+        </Button>
+      </View>
+    </PaperProvider>
+  );
+});
+
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
   const [selectedOption, setSelectedOption] = useState('Tap to sort repositories');
   const [searchQuery, setSearchQuery] = useState('');
   const [visible, setVisible] = useState(false);
-  const { repositories } = useRepositories(orderBy, orderDirection);
+  const { repositories } = useRepositories(orderBy, orderDirection, searchQuery);
   const navigate = useNavigate();
-  // console.log(repositories)
+  // console.log(repositories);
 
   // Get the nodes from the edges array
   const repositoryNodes = repositories
@@ -92,31 +113,22 @@ const RepositoryList = () => {
     setVisible(false);
   };
 
-  const renderHeader = () => (
-    <PaperProvider>
-      <View style={styles.searchContainer}>
-        <Searchbar
-          placeholder="Search"
-          placeholderTextColor={theme.colors.secondary}
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-          style={{ backgroundColor: 'white', borderRadius: 5, height: 60
-           }}
-        />
-      </View>
-      <View style={styles.headerContainer}>
-        <Button onPress={openMenu} style={styles.menuButton}>
-          {selectedOption}
-        </Button>
-      </View>
-    </PaperProvider>
-  );
-
   return (
     <View style={styles.flatListContainer}>
       <FlatList
         data={repositoryNodes}
-        ListHeaderComponent={renderHeader}
+        ListHeaderComponent={
+          <RepositoryListHeader
+            orderBy={orderBy}
+            orderDirection={orderDirection}
+            selectedOption={selectedOption}
+            visible={visible}
+            searchQuery={searchQuery}
+            handleOrderChange={handleOrderChange}
+            openMenu={openMenu}
+            setSearchQuery={setSearchQuery}
+          />
+        }
         ItemSeparatorComponent={ItemSeparator}
         renderItem={({ item }) => (
           <Pressable onPress={() => handlePress(item.id)}>

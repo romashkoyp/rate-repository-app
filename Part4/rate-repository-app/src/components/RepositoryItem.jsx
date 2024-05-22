@@ -84,7 +84,7 @@ const Item = ({ fullName, description, language, stargazersCount, forksCount, re
         </View>
         <View style={styles.thirdLevelContainer}>
           <View style={styles.textContainer}>
-            <Text fontWeight='bold' fontSize='subheading' color='primary'>Full name: {fullName}</Text>
+            <Text fontWeight='bold' fontSize='subheading' color='primary'>{fullName}</Text>
           </View>
           <View style={styles.textContainer}>
             <Text>{description}</Text>
