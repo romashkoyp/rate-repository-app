@@ -1,9 +1,10 @@
 import { FlatList, View, StyleSheet, Pressable } from 'react-native';
-import useRepositories from '../hooks/useRepositories';
+import { useDebounce } from 'use-debounce';
 import { useNavigate } from 'react-router-native';
 import { useState, memo } from 'react';
 import { Menu, Button, PaperProvider, Searchbar } from 'react-native-paper';
 import Item from './RepositoryItem';
+import useRepositories from '../hooks/useRepositories';
 import Overlay from './Overlay';
 import theme from '../theme';
 
@@ -48,34 +49,37 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryListHeader = memo(({ selectedOption, searchQuery, openMenu, setSearchQuery }) => {
-  return (
-    <PaperProvider>
-      <View style={styles.searchContainer}>
-        <Searchbar
-          placeholder="Search"
-          placeholderTextColor={theme.colors.secondary}
-          onChangeText={setSearchQuery}
-          value={searchQuery}
-          style={{ backgroundColor: 'white', borderRadius: 5 }}
-        />
-      </View>
-      <View style={styles.headerContainer}>
-        <Button onPress={openMenu} style={styles.menuButton}>
-          {selectedOption}
-        </Button>
-      </View>
-    </PaperProvider>
-  );
-});
+const RepositoryListHeader = memo(
+  ({ selectedOption, debouncedSearchQuery, openMenu, setSearchQuery }) => {
+    return (
+      <PaperProvider>
+        <View style={styles.searchContainer}>
+          <Searchbar
+            placeholder="Search"
+            placeholderTextColor={theme.colors.secondary}
+            onChangeText={setSearchQuery}
+            value={debouncedSearchQuery}
+            style={{ backgroundColor: 'white', borderRadius: 5 }}
+          />
+        </View>
+        <View style={styles.headerContainer}>
+          <Button onPress={openMenu} style={styles.menuButton}>
+            {selectedOption}
+          </Button>
+        </View>
+      </PaperProvider>
+    );
+  },
+);
 
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
   const [selectedOption, setSelectedOption] = useState('Tap to sort repositories');
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
   const [visible, setVisible] = useState(false);
-  const { repositories } = useRepositories(orderBy, orderDirection, searchQuery);
+  const { repositories } = useRepositories(orderBy, orderDirection, debouncedSearchQuery);
   const navigate = useNavigate();
   // console.log(repositories);
 
@@ -123,7 +127,7 @@ const RepositoryList = () => {
             orderDirection={orderDirection}
             selectedOption={selectedOption}
             visible={visible}
-            searchQuery={searchQuery}
+            value={debouncedSearchQuery}
             handleOrderChange={handleOrderChange}
             openMenu={openMenu}
             setSearchQuery={setSearchQuery}
