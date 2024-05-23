@@ -1,5 +1,5 @@
 import { gql } from '@apollo/client';
-import { REPOSITORY_FIELDS } from './fragments';
+import { REPOSITORY_FIELDS, USER_FIELDS, REVIEW_FIELDS } from './fragments';
 
 export const GET_REPOSITORIES = gql`
   query Repositories($orderBy: AllRepositoriesOrderBy, $orderDirection: OrderDirection, $searchKeyword: String) {
@@ -25,12 +25,23 @@ export const GET_REPOSITORY = gql`
 `;
 
 export const ME = gql`
-  query {
+  query getCurrentUser($includeReviews: Boolean = true) {
     me {
-      id
-      username
+      ...UserFields
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            ...ReviewFields
+            repository {
+              fullName
+            }
+          }
+        }
+      }
     }
   }
+  ${USER_FIELDS}
+  ${REVIEW_FIELDS}
 `;
 
 export const GET_REVIEWS = gql`
@@ -41,47 +52,15 @@ export const GET_REVIEWS = gql`
       reviews {
         edges {
           node {
-            id
-            text
-            rating
-            createdAt
+            ...ReviewFields
             user {
-              id
-              username
+              ...UserFields
             }
           }
         }
       }
     }
   }
+  ${USER_FIELDS}
+  ${REVIEW_FIELDS}
 `;
-
-// export const GET_REPOSITORY = gql`
-//   query {
-//     repository(id: "jaredpalmer.formik") {
-//       id
-//       fullName
-//       description
-//       language
-//       stargazersCount
-//       forksCount
-//       reviewCount
-//       ratingAverage
-//       ownerAvatarUrl
-//       url
-//     }
-//   }
-// `;
-
-// export const GET_REPOSITORIES = gql`
-//   query {
-//     repositories {
-//       edges {
-//         node {
-//           ...RepositoryFields
-//         }
-//       }
-//     }
-//   }
-//   ${REPOSITORY_FIELDS}
-// `;
