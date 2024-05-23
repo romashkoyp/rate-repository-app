@@ -1,7 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import Text from './Text';
 import { format } from 'date-fns';
-import useMe from '../hooks/useMe';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,22 +27,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReviewItem = ({ review }) => {
+const ReviewItem = ({ review, repositoryFullName }) => {
   const { text, rating, createdAt, user } = review;
-  // console.log(createdAt)
+   // console.log(user);
+
+  const fullName = repositoryFullName;
+  // console.log(fullName);
+
   const formattedDate = format(new Date(createdAt), 'dd.MM.yyyy');
-  const { me } = useMe(true);
-
-  // console.log('about me:', me?.reviews?.edges[0]?.node?.repository?.fullName)
-
-  const getRepositoryFullName = () => {
-    if (user?.username) {
-      return user.username;
-    } else {
-      const reviewFromMe = me?.reviews?.edges?.find(edge => edge.node.id === review.id);
-      return reviewFromMe?.node?.repository?.fullName || `There is no repository name`;
-    }
-  };
+  const displayName = fullName || user?.username || 'No Name Available';
 
   return (
     <View style={styles.container}>
@@ -53,7 +45,7 @@ const ReviewItem = ({ review }) => {
         </Text>
       </View>
       <View style={styles.contentContainer}>
-        <Text fontWeight='bold' fontSize='subheading'>{getRepositoryFullName()}</Text>
+        <Text fontWeight='bold' fontSize='subheading'>{displayName}</Text>
         <Text fontSize='subheading' color="secondary">{formattedDate}</Text>
         <View style={styles.textContainer}>
           <Text>{text}</Text>

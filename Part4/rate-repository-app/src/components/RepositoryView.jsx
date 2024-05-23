@@ -26,9 +26,6 @@ const RepositoryView = () => {
   if (repoError || reviewError) {
     return <Text>RepoError or ReviewError</Text>;
   }
-  // const reviews = reviewData.repository.reviews.edges[0];
-  // console.log(reviews);
-
   const repository = repoData?.repository;
 
   if (!repository) {
@@ -36,6 +33,8 @@ const RepositoryView = () => {
   }
 
   const reviews = reviewData?.repository?.reviews?.edges?.map(edge => edge.node);
+  // const reviews = reviewData.repository.reviews.edges[0];
+  // console.log(reviews);
 
   const {
     fullName,
