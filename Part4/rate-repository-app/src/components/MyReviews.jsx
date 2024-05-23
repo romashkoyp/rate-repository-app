@@ -31,6 +31,7 @@ const MyReviews = () => {
         <ReviewItem
           review={item}
           repositoryFullName={item.repository.fullName}
+          repositoryId={item.repository.id}
         />
       }
       keyExtractor={(item) => item.id}

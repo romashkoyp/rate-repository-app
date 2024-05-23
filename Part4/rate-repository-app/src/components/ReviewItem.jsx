@@ -27,12 +27,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReviewItem = ({ review, repositoryFullName }) => {
+const ReviewItem = ({ review, repositoryFullName, repositoryId }) => {
   const { text, rating, createdAt, user } = review;
    // console.log(user);
 
   const fullName = repositoryFullName;
   // console.log(fullName);
+
+  const id = repositoryId;
+  // console.log(id);
 
   const formattedDate = format(new Date(createdAt), 'dd.MM.yyyy');
   const displayName = fullName || user?.username || 'No Name Available';
