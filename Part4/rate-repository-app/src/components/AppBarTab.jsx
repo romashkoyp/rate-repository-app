@@ -18,6 +18,14 @@ export const AppBarCreateReview = ({ onPress }) => {
   );
 };
 
+export const AppBarMyReviews = ({ onPress }) => {
+  return (
+    <Pressable onPress={onPress}>
+      <Text style={{ color: theme.colors.barText, fontSize: theme.fontSizes.subheading }}>My reviews</Text>
+    </Pressable>
+  );
+};
+
 export const AppBarSignIn = () => {
   return (
     <Link to="/signIn">

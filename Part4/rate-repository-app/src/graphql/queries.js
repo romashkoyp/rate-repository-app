@@ -25,7 +25,7 @@ export const GET_REPOSITORY = gql`
 `;
 
 export const ME = gql`
-  query getCurrentUser($includeReviews: Boolean = true) {
+  query getCurrentUser($includeReviews: Boolean = false) {
     me {
       ...UserFields
       reviews @include(if: $includeReviews) {
