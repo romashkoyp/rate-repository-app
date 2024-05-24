@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-native';
 import { useState, memo } from 'react';
 import { Menu, Button, PaperProvider, Searchbar } from 'react-native-paper';
 import Item from './RepositoryItem';
-import useRepositories from '../hooks/useRepositories';
-import Overlay from './Overlay';
-import theme from '../theme';
+import useRepositories from '../../hooks/useRepositories';
+import Overlay from '../Common/Overlay';
+import theme from '../../theme';
 
 const styles = StyleSheet.create({
   separator: {
@@ -49,19 +49,25 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
+const SearchBar = memo(({ searchQuery, setSearchQuery }) => {
+  return (
+    <View style={styles.searchContainer}>
+      <Searchbar
+        placeholder="Search"
+        placeholderTextColor={theme.colors.secondary}
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+        style={{ backgroundColor: 'white', borderRadius: 5 }}
+      />
+    </View>
+  );
+});
+
 const RepositoryListHeader = memo(
   ({ selectedOption, debouncedSearchQuery, openMenu, setSearchQuery }) => {
     return (
       <PaperProvider>
-        <View style={styles.searchContainer}>
-          <Searchbar
-            placeholder="Search"
-            placeholderTextColor={theme.colors.secondary}
-            onChangeText={setSearchQuery}
-            value={debouncedSearchQuery}
-            style={{ backgroundColor: 'white', borderRadius: 5 }}
-          />
-        </View>
+        <SearchBar searchQuery={debouncedSearchQuery} setSearchQuery={setSearchQuery} />
         <View style={styles.headerContainer}>
           <Button onPress={openMenu} style={styles.menuButton}>
             {selectedOption}
@@ -106,7 +112,6 @@ const RepositoryList = () => {
         setOrderBy('CREATED_AT');
         setOrderDirection('DESC');
         setSelectedOption('Latest repositories');
-        // setFirst(10);
         break;
       case 'RATING_AVERAGE_DESC':
         setOrderBy('RATING_AVERAGE');

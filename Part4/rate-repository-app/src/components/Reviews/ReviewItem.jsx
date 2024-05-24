@@ -1,9 +1,9 @@
 import { View, StyleSheet, Pressable, Alert } from 'react-native';
 import { useApolloClient } from '@apollo/client'; 
 import { useNavigate } from 'react-router-native';
-import Text from './Text';
+import Text from '../Common/Text';
 import { format } from 'date-fns';
-import useDeleteReview from '../hooks/useDeleteReview';
+import useDeleteReview from '../../hooks/useDeleteReview';
 
 const styles = StyleSheet.create({
   container: {

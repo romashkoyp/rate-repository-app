@@ -1,9 +1,9 @@
 import { Text, FlatList, View, StyleSheet } from 'react-native';
 import { useParams } from 'react-router-native';
 import Item from './RepositoryItem';
-import ReviewItem from './ReviewItem';
-import useRepository from '../hooks/useRepository';
-import useReviews from '../hooks/useReviews';
+import ReviewItem from '../Reviews/ReviewItem';
+import useRepository from '../../hooks/useRepository';
+import useReviews from '../../hooks/useReviews';
 
 const styles = StyleSheet.create({
   separator: {

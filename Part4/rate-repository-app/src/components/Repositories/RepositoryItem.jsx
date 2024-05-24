@@ -1,6 +1,6 @@
 import { View, Image, StyleSheet, Pressable } from 'react-native';
-import Text from './Text';
-import FormatCount from '../utils/shortBigNumber';
+import Text from '../Common/Text';
+import FormatCount from '../../utils/shortBigNumber';
 import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({

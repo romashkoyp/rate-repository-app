@@ -2,8 +2,8 @@ import { View, StyleSheet, ScrollView } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import Constants from 'expo-constants';
 import { useApolloClient } from '@apollo/client';
-import useAuthStorage from '../hooks/useAuthStorage';
-import useMe from '../hooks/useMe';
+import useAuthStorage from '../../hooks/useAuthStorage';
+import useMe from '../../hooks/useMe';
 import { AppBarTab, AppBarSignIn, AppBarSignOut, AppBarCreateReview, AppBarSignUp, AppBarMyReviews } from './AppBarTab';
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
 import { Text as NativeText, StyleSheet } from 'react-native';
-import theme from '../theme';
-import useFontStyle from '../hooks/useFontStyle';
+import theme from '../../theme';
+import useFontStyle from '../../hooks/useFontStyle';
 
 const styles = StyleSheet.create({
   text: {

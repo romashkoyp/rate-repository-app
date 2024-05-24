@@ -1,6 +1,6 @@
 import { FlatList } from 'react-native';
 import RepositoryItem from './RepositoryItem';
-import useRepositories from '../hooks/useRepositories';
+import useRepositories from '../../hooks/useRepositories';
 
 export const RepositoryListContainer = ({ repositories }) => {
   const repositoryNodes = repositories

@@ -1,6 +1,6 @@
 import { Text, FlatList, View, StyleSheet  } from 'react-native';
 import ReviewItem from './ReviewItem';
-import useMe from '../hooks/useMe';
+import useMe from '../../hooks/useMe';
 
 const styles = StyleSheet.create({
   separator: {

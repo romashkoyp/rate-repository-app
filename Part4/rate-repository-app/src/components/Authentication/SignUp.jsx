@@ -2,12 +2,12 @@ import { TextInput, Pressable, View, StyleSheet } from 'react-native';
 import { Formik } from 'formik';
 import { useNavigate } from 'react-router-native';
 import { useApolloClient } from '@apollo/client';
-import theme from '../theme';
+import theme from '../../theme';
 
-import useCreateUser from '../hooks/useCreateUser';
-import useSignIn from '../hooks/useSignIn';
+import useCreateUser from '../../hooks/useCreateUser';
+import useSignIn from '../../hooks/useSignIn';
 import * as yup from 'yup';
-import Text from './Text';
+import Text from '../Common/Text';
 
 const styles = StyleSheet.create({
   container: {

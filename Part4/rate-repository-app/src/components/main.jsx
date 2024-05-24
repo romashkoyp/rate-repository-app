@@ -1,12 +1,12 @@
 import { StyleSheet, View } from 'react-native';
 import { Route, Routes, Navigate } from 'react-router-native';
-import RepositoryList from './RepositoryList';
-import RepositoryView from './RepositoryView';
-import CreateReview from './CreateReview';
-import MyReviews from './MyReviews';
-import AppBar from './AppBar';
-import SignIn from './SignIn';
-import SignUp from './SignUp';
+import RepositoryList from './Repositories/RepositoryList';
+import RepositoryView from './Repositories/RepositoryView';
+import CreateReview from './Reviews/CreateReview';
+import MyReviews from './Reviews/MyReviews';
+import AppBar from './AppBar/AppBar';
+import SignIn from './Authentication/SignIn';
+import SignUp from './Authentication/SignUp';
 
 const styles = StyleSheet.create({
   container: {
