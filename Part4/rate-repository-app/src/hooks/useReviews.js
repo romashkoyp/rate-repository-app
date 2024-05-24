@@ -28,6 +28,7 @@ const useReviews = (id, first = 8) => {
     data,
     fetchMore: handleFetchMore,
     loading,
+    error,
     ...result,
   } 
 };

@@ -28,6 +28,7 @@ const useRepositories = (orderBy = 'CREATED_AT', orderDirection = 'DESC', search
     repositories: data?.repositories,
     fetchMore: handleFetchMore,
     loading,
+    error,
     ...result,
   };
 };

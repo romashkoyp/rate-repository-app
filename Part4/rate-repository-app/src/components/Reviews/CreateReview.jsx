@@ -130,11 +130,9 @@ const CreateReview = () => {
                 placeholderTextColor={theme.colors.secondary}
               />
             </View>
-            <View style={styles.buttonContainer}>
-              <Pressable onPress={handleSubmit}>
-                <Text color="bar">Create a review</Text>
-              </Pressable>
-            </View>
+            <Pressable onPress={handleSubmit} style={styles.buttonContainer}>
+              <Text color="bar">Create a review</Text>
+            </Pressable>
           </View>
         </View>
       )}

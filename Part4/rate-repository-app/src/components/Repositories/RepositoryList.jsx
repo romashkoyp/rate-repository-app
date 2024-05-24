@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const SearchBar = memo(({ searchQuery, setSearchQuery }) => {
+const SearchBarComponent = ({ searchQuery, setSearchQuery }) => {
   return (
     <View style={styles.searchContainer}>
       <Searchbar
@@ -61,22 +61,26 @@ const SearchBar = memo(({ searchQuery, setSearchQuery }) => {
       />
     </View>
   );
-});
+};
 
-const RepositoryListHeader = memo(
-  ({ selectedOption, debouncedSearchQuery, openMenu, setSearchQuery }) => {
-    return (
-      <PaperProvider>
-        <SearchBar searchQuery={debouncedSearchQuery} setSearchQuery={setSearchQuery} />
-        <View style={styles.headerContainer}>
-          <Button onPress={openMenu} style={styles.menuButton}>
-            {selectedOption}
-          </Button>
-        </View>
-      </PaperProvider>
-    );
-  },
-);
+const SearchBar = memo(SearchBarComponent);
+SearchBar.displayName = 'SearchBar';
+
+const RepositoryListHeaderComponent = ({ selectedOption, debouncedSearchQuery, openMenu, setSearchQuery }) => {
+  return (
+    <PaperProvider>
+      <SearchBar searchQuery={debouncedSearchQuery} setSearchQuery={setSearchQuery} />
+      <View style={styles.headerContainer}>
+        <Button onPress={openMenu} style={styles.menuButton}>
+          {selectedOption}
+        </Button>
+      </View>
+    </PaperProvider>
+  );
+};
+
+const RepositoryListHeader = memo(RepositoryListHeaderComponent);
+RepositoryListHeader.displayName = 'RepositoryListHeader';
 
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');

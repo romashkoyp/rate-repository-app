@@ -95,11 +95,9 @@ const SignIn = () => {
                 <Text color='red'>{errors.password}</Text>
               </View>
             )}
-            <View style={styles.buttonContainer}>
-              <Pressable onPress={handleSubmit}>
-                <Text color="bar">Sign in</Text>
-              </Pressable>
-            </View>
+            <Pressable onPress={handleSubmit} style={styles.buttonContainer}>
+              <Text color="bar">Sign in</Text>
+            </Pressable>
           </View>
         </View>
       )}

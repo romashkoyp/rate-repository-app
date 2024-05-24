@@ -54,20 +54,20 @@ const AppBar = () => {
           <View style={styles.appBarTabContainer}>
             <AppBarTab />
           </View>
-          <View style={styles.appBarTabContainer}>
             {me && me.username ? (
-              <AppBarCreateReview onPress={handleAddReview}/>
+              <View style={styles.appBarTabContainer}>
+                <AppBarCreateReview onPress={handleAddReview}/>
+              </View>
             ) : (
               null
             )}
-          </View>
-          <View style={styles.appBarTabContainer}>
             {me && me.username ? (
-              <AppBarMyReviews onPress={handleMyReviews}/>
+              <View style={styles.appBarTabContainer}>
+                <AppBarMyReviews onPress={handleMyReviews}/>
+              </View>
             ) : (
               null
-            )}
-          </View>
+            )}          
           <View style={styles.appBarTabContainer}>
             {me && me.username ? (
               <AppBarSignOut onPress={handleSignOut}/>

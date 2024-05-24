@@ -121,16 +121,12 @@ const ReviewItem = ({ review, repositoryFullName, repositoryId }) => {
       </View>
       {!user?.username ? (
         <View style={styles.buttonGroupContainer}>
-          <View style={styles.buttonBlueContainer}>
-            <Pressable onPress={handlePress}>
-              <Text color="bar">View repository</Text>
-            </Pressable>
-          </View>
-          <View style={styles.buttonRedContainer}>
-            <Pressable onPress={handlePressDelete}>
-              <Text color="bar">Delete review</Text>
-            </Pressable>
-          </View>
+          <Pressable onPress={handlePress} style={styles.buttonBlueContainer}>
+            <Text color="bar">View repository</Text> 
+          </Pressable>          
+          <Pressable onPress={handlePressDelete} style={styles.buttonRedContainer}>
+            <Text color="bar">Delete review</Text>
+          </Pressable>
         </View>
       ) : (null)}
     </View>

@@ -132,11 +132,9 @@ const Item = ({ fullName, description, language, stargazersCount, forksCount, re
       </View>
       {url ? (
         <View style={styles.fifthLevelContainer}>
-          <View style={styles.buttonContainerMain}>
-            <Pressable onPress={handlePress}>
-              <Text color='bar'>Open in GitHub</Text>
-            </Pressable>
-          </View>
+          <Pressable onPress={handlePress} style={styles.buttonContainerMain}>
+            <Text color='bar'>Open in GitHub</Text>
+          </Pressable>
         </View>) : (
           null
         )
