@@ -75,11 +75,12 @@ const RepositoryListHeader = memo(
 const RepositoryList = () => {
   const [orderBy, setOrderBy] = useState('CREATED_AT');
   const [orderDirection, setOrderDirection] = useState('DESC');
-  const [selectedOption, setSelectedOption] = useState('Tap to sort repositories');
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery] = useDebounce(searchQuery, 500);
+  // const [first, setFirst] = useState(10);
+  const [selectedOption, setSelectedOption] = useState('Tap to sort repositories');
   const [visible, setVisible] = useState(false);
-  const { repositories } = useRepositories(orderBy, orderDirection, debouncedSearchQuery);
+  const { repositories, fetchMore } = useRepositories(orderBy, orderDirection, debouncedSearchQuery);
   const navigate = useNavigate();
   // console.log(repositories);
 
@@ -92,6 +93,11 @@ const RepositoryList = () => {
     navigate(`/repository/${id}`);
   };
 
+  const onEndReach = () => {
+    fetchMore();
+    console.log('You have reached the end of the list');
+  };
+
   const openMenu = () => setVisible(!visible);
 
   const handleOrderChange = (value) => {
@@ -100,6 +106,7 @@ const RepositoryList = () => {
         setOrderBy('CREATED_AT');
         setOrderDirection('DESC');
         setSelectedOption('Latest repositories');
+        // setFirst(10);
         break;
       case 'RATING_AVERAGE_DESC':
         setOrderBy('RATING_AVERAGE');
@@ -149,6 +156,8 @@ const RepositoryList = () => {
           </Pressable>
         )}
         keyExtractor={(item) => item.id}
+        onEndReached={onEndReach}
+        onEndReachedThreshold={0.5}
       />
 
       <View style={styles.menuContainer}>
