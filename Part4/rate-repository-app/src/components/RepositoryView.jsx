@@ -1,4 +1,4 @@
-import { Text, FlatList, View, StyleSheet  } from 'react-native';
+import { Text, FlatList, View, StyleSheet } from 'react-native';
 import { useParams } from 'react-router-native';
 import Item from './RepositoryItem';
 import ReviewItem from './ReviewItem';
@@ -17,7 +17,7 @@ const ItemSeparator = () => <View style={styles.separator} />;
 const RepositoryView = () => {
   const { id } = useParams();
   const { data: repoData, loading: repoLoading, error: repoError } = useRepository(id);
-  const { data: reviewData, loading: reviewLoading, error: reviewError } = useReviews(id);
+  const { data: reviewData, loading: reviewLoading, error: reviewError, fetchMore } = useReviews(id);
 
   if (repoLoading || reviewLoading) {
     return <Text>Loading...</Text>;
@@ -33,8 +33,8 @@ const RepositoryView = () => {
   }
 
   const reviews = reviewData?.repository?.reviews?.edges?.map(edge => edge.node);
-  // const reviews = reviewData.repository.reviews.edges[0];
   // console.log(reviews);
+  console.log(reviewData?.repository?.reviews?.edges?.map(edge => edge.node))
 
   const {
     fullName,
@@ -48,11 +48,18 @@ const RepositoryView = () => {
     url,
   } = repository;
 
+  const onEndReach = () => {
+    fetchMore();
+    console.log('You have reached the end of the list');
+  };
+
   return (
     <FlatList
       data={reviews}
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={(item) => item.id}
+      onEndReached={onEndReach}
+      onEndReachedThreshold={0.5}
       ListHeaderComponent={() => (
         <Item
           fullName={fullName}

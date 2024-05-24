@@ -26,6 +26,7 @@ export const REVIEW_FIELDS = gql`
     id
     text
     rating
+    repositoryId
     createdAt
   }
 `;
